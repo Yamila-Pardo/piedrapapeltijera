@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piedra, Papel o Tijera</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+        }
+
+        body {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .opciones {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .opciones button {
+            font-size: 3rem;
+            padding: 15px;
+            cursor: pointer;
+            background: white;
+            border: 3px solid var(--primary-color);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .opciones button:hover {
+            transform: scale(1.1);
+            border-color: var(--secondary-color);
+        }
+
+        .opciones button:active {
+            transform: scale(0.95);
+        }
+
+        #elecciones {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        #resultado {
+            font-size: 1.5rem;
+            margin: 20px 0;
+        }
+
+        .boton-reiniciar {
+            padding: 10px 25px;
+            font-size: 1.1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .boton-reiniciar:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 480px) {
+            .opciones button {
+                font-size: 2.5rem;
+                min-width: 80px;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            #elecciones {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Piedra, Papel o Tijera</h1>
+    
+    <div class="opciones">
+        <button onclick="jugar(1)" aria-label="Piedra">✊🏻</button>
+        <button onclick="jugar(2)" aria-label="Papel">✋🏻</button>
+        <button onclick="jugar(3)" aria-label="Tijera">✌🏻</button>
+    </div>
+    
+    <div id="elecciones">
+        <p>Tu elección: <span id="jugador-eleccion"></span></p>
+        <p>PC elección: <span id="pc-eleccion"></span></p>
+    </div>
+    
+    <div id="resultado"></div>
+    
+    <script>
+        function aleatorio(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        const opciones = {
+            1: { nombre: "Piedra", emoji: "✊🏻" },
+            2: { nombre: "Papel", emoji: "✋🏻" },
+            3: { nombre: "Tijera", emoji: "✌🏻" }
+        };
+
+        function jugar(jugador) {
+            const pc = aleatorio(1, 3);
+            
+            document.getElementById("jugador-eleccion").textContent = 
+                `${opciones[jugador].nombre} ${opciones[jugador].emoji}`;
+            
+            document.getElementById("pc-eleccion").textContent = 
+                `${opciones[pc].nombre} ${opciones[pc].emoji}`;
+            
+            let resultado;
+            if (jugador === pc) {
+                resultado = "EMPATE 🤝🏻";
+            } else if (
+                (jugador === 1 && pc === 3) ||
+                (jugador === 2 && pc === 1) ||
+                (jugador === 3 && pc === 2)
+            ) {
+                resultado = "GANASTE 🏆";
+            } else {
+                resultado = "PERDISTE 🤡";
+            }
+            
+            document.getElementById("resultado").innerHTML = `
+                <h2>${resultado}</h2>
+                <button class="boton-reiniciar" onclick="location.reload()">Jugar de nuevo</button>
+            `;
+        }
+    </script>
+</body>
+</html>
